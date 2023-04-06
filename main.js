@@ -2,7 +2,6 @@ function virarCarta(el) {
     const frente = el.childNodes[0]
     const atras = el.childNodes[1]
 
-    console.log(frente)
     if(atras.style.transform == "rotateY(0deg)"){
         virarParaFrente(frente, atras)
     } else {
@@ -32,30 +31,34 @@ function startGame() {
         cardsbox.removeChild(cardsbox.lastChild);
     }
 
-    let res
-
     while (true) {
-        res = prompt("Com quantas cartas você quer jogar?: ")
-        if(res % 2 == 0 && res >= 4 && res <= 14) {
+        qtdCartas = prompt("Com quantas cartas você quer jogar?: ")
+        if(qtdCartas % 2 == 0 && qtdCartas >= 4 && qtdCartas <= 14) {
             break;
         }
     }
 
+    cartasRestantes = qtdCartas
+
     // Repopula o array "parrotsLeft" usando o array parrotsTypes
     parrotsLeft = Array.from(parrotsTypes);
     
-    while (res != 0) {
+    while (qtdCartas != 0) {
         generateCardPair()
-        res -= 2;
+        qtdCartas -= 2;
     }
 
+    // Embaralha as cartas.
     const nodes = Array.from(cardsbox.childNodes);
-    console.log(nodes)
     nodes.sort(comparador)
     
     nodes.forEach(node => {
        cardsbox.appendChild(node); 
     });
+
+    // reseta o número de jogadas e cartas selecionadas;
+    jogadas = 0;
+    selectedCards = []
 }
 
 function comparador() { 
@@ -81,7 +84,57 @@ function generateCardPair() {
     parrotsLeft.splice(index, 1)
 }
 
+function chooseCard(el) {
+    if(selectedCards.length  == 2) return; // Caso já existam duas cartas selecionadas, faça nada.
+
+    virarCarta(el);
+    selectedCards.push(el)
+    jogadas++;
+    //console.log("Lenght selectedCards: " + selectedCards.length);
+    //console.log("Selected cards: " + selectedCards)
+    //console.log("Jogadas: " + jogadas);
+
+
+    if(selectedCards.length == 2) { // Caso, depois de selecionar a carta nova, tenha 2 cartas selecionadas, faça os cálculos lógicos:
+        const cardSrc1 = selectedCards[0].childNodes[1].childNodes[0].src
+        const cardSrc2 = selectedCards[1].childNodes[1].childNodes[0].src
+        
+        if(cardSrc1 == cardSrc2) 
+        {
+            if(selectedCards[1] != selectedCards[0]) { // Apenas remove os listeners se o jogador clicou em 2 cartas distintas (Resolve o bug de clicar na mesma carta 2 vezes.)
+                selectedCards[0].removeAttribute("onclick");
+                selectedCards[1].removeAttribute("onclick");
+                cartasRestantes -= 2;
+
+                if(cartasRestantes == 0)
+                {
+                    console.log("Você ganhou!")
+                    // vencer jogo!
+                }
+            }
+            selectedCards = []
+
+        } else {
+            setTimeout( () => {
+                virarCarta(selectedCards[0])
+                virarCarta(selectedCards[1])
+                selectedCards = [];
+            }, 1000)
+        }
+
+        // Se for diferente, colocar um set-timeout para desvirar as duas e resetar o selected cards.
+
+    }
+
+}
+
+// Project variables
+let selectedCards = [];
+let jogadas = 0;
+let qtdCartas = 0;
+let cartasRestantes = 0;
 
 const parrotsTypes = ["unicornparrot", "tripletsparrot", "revertitparrot", "metalparrot", "fiestaparrot", "explodyparrot", "bobrossparrot"]
 let parrotsLeft = []
-const element = '<div class="card" onclick="virarCarta(this)"><div class="frente face"><img src="src/parrot.png" alt="parrot"></div><div class="atras face"><img src="src/metalparrot.gif" alt="metalparrot""></div></div>'
+
+const element = '<div class="card" onclick="chooseCard(this)"><div class="frente face"><img src="src/parrot.png" alt="parrot"></div><div class="atras face"><img src="src/metalparrot.gif" alt="metalparrot""></div></div>'
