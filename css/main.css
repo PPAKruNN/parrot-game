@@ -24,6 +24,8 @@ h1 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    max-width: 950px;
 }
 
 .card {
