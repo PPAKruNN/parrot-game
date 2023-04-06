@@ -10,6 +10,13 @@ h1 {
     line-height: 66px;
 }
 
+.clock {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 48px;    
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -32,7 +39,7 @@ h1 {
     width: 120px;
     height: 146px;
     position: relative;
-    margin: 10px 0px;
+    margin: 16px;
   }
 
 .face {
@@ -68,6 +75,10 @@ h1 {
         font-size: 36px;
         line-height: 42px;
         text-align: center;
+    }
+
+    .clock {
+        font-size: 24px;
     }
 
     .cards-box {

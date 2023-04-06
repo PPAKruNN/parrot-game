@@ -56,9 +56,17 @@ function startGame() {
        cardsbox.appendChild(node); 
     });
 
-    // reseta o número de jogadas e cartas selecionadas;
+    // reseta o número de jogadas, cartas selecionadas e relógio;
     jogadas = 0;
     selectedCards = []
+    minutos = 0;
+    segundos = 0;
+
+    //Inicia relógio e reseta contadores
+    clockInstance = setInterval(() => {
+        segundos++
+        document.querySelector(".clock").innerHTML = segundos.toString()
+    }, 1000);
 }
 
 function comparador() { 
@@ -90,9 +98,6 @@ function chooseCard(el) {
     virarCarta(el);
     selectedCards.push(el)
     jogadas++;
-    //console.log("Lenght selectedCards: " + selectedCards.length);
-    //console.log("Selected cards: " + selectedCards)
-    //console.log("Jogadas: " + jogadas);
 
 
     if(selectedCards.length == 2) { // Caso, depois de selecionar a carta nova, tenha 2 cartas selecionadas, faça os cálculos lógicos:
@@ -108,8 +113,19 @@ function chooseCard(el) {
 
                 if(cartasRestantes == 0)
                 {
-                    console.log("Você ganhou!")
-                    // vencer jogo!
+                    clearInterval(clockInstance);
+                    alert(`Você ganhou em ${jogadas} jogadas! A duração do jogo foi de ${segundos} segundos`)
+                    while(true) {
+                        const res = prompt("Você gostaria de reiniciar a partida?")
+                        if(res == "sim") {
+                            startGame();
+                            break;
+                        }
+                        if(res == "não") {
+                            break;
+                        }
+
+                    }
                 }
             }
             selectedCards = []
@@ -121,11 +137,7 @@ function chooseCard(el) {
                 selectedCards = [];
             }, 1000)
         }
-
-        // Se for diferente, colocar um set-timeout para desvirar as duas e resetar o selected cards.
-
     }
-
 }
 
 // Project variables
@@ -133,8 +145,13 @@ let selectedCards = [];
 let jogadas = 0;
 let qtdCartas = 0;
 let cartasRestantes = 0;
+let segundos = 0;
+
+let clockInstance; 
 
 const parrotsTypes = ["unicornparrot", "tripletsparrot", "revertitparrot", "metalparrot", "fiestaparrot", "explodyparrot", "bobrossparrot"]
 let parrotsLeft = []
 
-const element = '<div class="card" onclick="chooseCard(this)"><div class="frente face"><img src="src/parrot.png" alt="parrot"></div><div class="atras face"><img src="src/metalparrot.gif" alt="metalparrot""></div></div>'
+const element = '<div class="card" data-test="card" onclick="chooseCard(this)"><div class="frente face"><img data-test="face-up-image" src="src/parrot.png" alt="parrot"></div><div class="atras face"><img data-test="face-down-image" src="src/metalparrot.gif" alt="metalparrot""></div></div>'
+
+startGame();
