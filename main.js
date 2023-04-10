@@ -103,10 +103,7 @@ function chooseCard(el) {
     selectedCards.push(el)
     jogadas++;
 
-    setTimeout(checkIfTwo, 500); // Executa a lógica depois de 500ms (Esperando a animação acontecer!)
-}
 
-function checkIfTwo() {
     if(selectedCards.length == 2) { // Caso, depois de selecionar a carta nova, tenha 2 cartas selecionadas, faça os cálculos lógicos:
         const cardSrc1 = selectedCards[0].childNodes[1].childNodes[0].src
         const cardSrc2 = selectedCards[1].childNodes[1].childNodes[0].src
@@ -118,22 +115,7 @@ function checkIfTwo() {
                 selectedCards[1].removeAttribute("onclick");
                 cartasRestantes -= 2;
 
-                if(cartasRestantes == 0)
-                {
-                    clearInterval(clockInstance);
-                    alert(`Você ganhou em ${jogadas} jogadas! A duração do jogo foi de ${segundos} segundos`)
-                    while(true) {
-                        const res = prompt("Você gostaria de reiniciar a partida?")
-                        if(res == "sim") {
-                            startGame();
-                            break;
-                        }
-                        if(res == "não") {
-                            break;
-                        }
-
-                    }
-                }
+                setTimeout(cardsLogic, 500);
             }
             selectedCards = []
 
@@ -143,6 +125,25 @@ function checkIfTwo() {
                 virarCarta(selectedCards[1])
                 selectedCards = [];
             }, 1000)
+        }
+    }
+}
+
+function cardsLogic() {
+    if(cartasRestantes == 0)
+    {
+        clearInterval(clockInstance);
+        alert(`Você ganhou em ${jogadas} jogadas! A duração do jogo foi de ${segundos} segundos`)
+        while(true) {
+            const res = prompt("Você gostaria de reiniciar a partida?")
+            if(res == "sim") {
+                startGame();
+                break;
+            }
+            if(res == "não") {
+                break;
+            }
+
         }
     }
 }
