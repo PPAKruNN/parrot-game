@@ -95,15 +95,22 @@ function generateCardPair() {
 function chooseCard(el) {
     if(selectedCards.length  == 2) return; // Caso já existam duas cartas selecionadas, faça nada.
 
+    if(selectedCards[0] == el) {
+        return;
+    }
+
     virarCarta(el);
     selectedCards.push(el)
     jogadas++;
 
+    setTimeout(checkIfTwo, 500); // Executa a lógica depois de 500ms (Esperando a animação acontecer!)
+}
 
+function checkIfTwo() {
     if(selectedCards.length == 2) { // Caso, depois de selecionar a carta nova, tenha 2 cartas selecionadas, faça os cálculos lógicos:
         const cardSrc1 = selectedCards[0].childNodes[1].childNodes[0].src
         const cardSrc2 = selectedCards[1].childNodes[1].childNodes[0].src
-        
+
         if(cardSrc1 == cardSrc2) 
         {
             if(selectedCards[1] != selectedCards[0]) { // Apenas remove os listeners se o jogador clicou em 2 cartas distintas (Resolve o bug de clicar na mesma carta 2 vezes.)
