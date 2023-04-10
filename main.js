@@ -133,9 +133,9 @@ function cardsLogic() {
     if(cartasRestantes == 0)
     {
         clearInterval(clockInstance);
-        alert(`Você ganhou em ${jogadas} jogadas! A duração do jogo foi de ${segundos} segundos`)
+        alert(`Você ganhou em ${jogadas} jogadas! A duração do jogo foi de ${segundos} segundos!`)
         while(true) {
-            const res = prompt("Você gostaria de reiniciar a partida?")
+            const res = prompt("Você gostaria de reiniciar a partida? (sim ou não)")
             if(res == "sim") {
                 startGame();
                 break;
