@@ -152,6 +152,6 @@ let clockInstance;
 const parrotsTypes = ["unicornparrot", "tripletsparrot", "revertitparrot", "metalparrot", "fiestaparrot", "explodyparrot", "bobrossparrot"]
 let parrotsLeft = []
 
-const element = '<div class="card" data-test="card" onclick="chooseCard(this)"><div class="frente face"><img data-test="face-up-image" src="src/parrot.png" alt="parrot"></div><div class="atras face"><img data-test="face-down-image" src="src/metalparrot.gif" alt="metalparrot""></div></div>'
+const element = '<div class="card" data-test="card" onclick="chooseCard(this)"><div class="frente face"><img data-test="face-down-image" src="src/parrot.png" alt="parrot"></div><div class="atras face"><img data-test="face-up-image" src="src/metalparrot.gif" alt="metalparrot""></div></div>'
 
 startGame();
